@@ -1,47 +1,189 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#163f60">
-<title>吉大法硕训练营</title>
-<style>
-:root{--bg:#eef5f7;--card:#fff;--ink:#17324a;--muted:#6f8292;--line:#d8e4e9;--blue:#1f5f83;--blue2:#2f789e;--gold:#e0a93b;--red:#b94a48;--green:#408c68;--shadow:0 12px 34px rgba(26,69,92,.10)}*{box-sizing:border-box}body{margin:0;font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:linear-gradient(180deg,#e8f3f5,#f6f8f8 35%,#eef4f5);color:var(--ink)}button,input,textarea,select{font:inherit}button{cursor:pointer}.header{background:linear-gradient(135deg,#123d5d,#246d8c);color:#fff;padding:28px 5vw 18px;box-shadow:0 8px 30px rgba(16,57,84,.23)}.brand{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.mark{width:70px;height:70px;border-radius:22px;border:2px solid rgba(255,255,255,.65);display:grid;place-items:center;font-weight:900;letter-spacing:.12em;background:rgba(255,255,255,.08)}.brand h1{margin:2px 0 4px;font-size:clamp(26px,4vw,42px)}.eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;opacity:.72;margin:0}.sub{margin:0;opacity:.78}.hero{margin-left:auto;display:flex;gap:10px}.stat{min-width:108px;text-align:center;padding:12px;border-radius:16px;background:rgba(255,255,255,.11)}.stat strong{display:block;font-size:25px}.quote{margin-top:18px;padding:13px 16px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.07)}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}nav button{border:0;border-radius:999px;padding:9px 13px;background:rgba(255,255,255,.11);color:#fff}nav button.active{background:#fff;color:var(--blue);font-weight:800}.wrap{width:min(1180px,92vw);margin:28px auto 70px}.view{display:none}.view.active{display:block}.heading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:0 0 16px}.heading h2{margin:3px 0 0;font-size:28px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.panel{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.span7{grid-column:span 7}.span5{grid-column:span 5}.span6{grid-column:span 6}@media(max-width:800px){.span7,.span5,.span6{grid-column:span 12}.hero{width:100%;margin-left:0}.stat{flex:1}}h3{margin:4px 0 14px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.subjects,.two{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:560px){.subjects,.two{grid-template-columns:1fr}}label{display:grid;gap:6px;font-weight:650;font-size:14px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fbfdfe;color:var(--ink)}textarea{resize:vertical}.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:800}.ghost{background:#edf4f7;color:var(--blue);border:1px solid #cfe0e7}.danger{background:#fff0ef;color:var(--red);border:1px solid #efcecc}.form{display:grid;gap:12px}.pill{display:inline-block;border-radius:999px;background:#eaf3f6;color:var(--blue);padding:5px 9px;font-size:12px;font-weight:800}.muted{color:var(--muted);font-size:13px}.question{font-size:20px;line-height:1.6;margin:14px 0}.answer{margin:12px 0;padding:12px;border-left:4px solid var(--gold);border-radius:10px;background:#fff8e9}.schedule{display:grid;gap:8px}.schedule label{grid-template-columns:auto 1fr;align-items:center;padding:10px;border:1px solid var(--line);border-radius:12px}.schedule label.now{border-color:var(--gold);background:#fff9eb}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}@media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.metric strong{font-size:24px;display:block}.bar{height:12px;background:#e8eef1;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2))}.cards{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfdfe}.item .top{display:flex;justify-content:space-between;gap:8px}.table{overflow:auto}table{border-collapse:collapse;width:100%;min-width:620px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.photo{border-radius:15px;overflow:hidden;border:1px solid var(--line);background:#fff}.photo img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}.photo div{padding:9px;font-size:12px}.notice{padding:12px;border-radius:12px;background:#fff8e8;border:1px solid #efdeae}.toast{position:fixed;right:18px;bottom:18px;background:#173a55;color:#fff;padding:11px 14px;border-radius:12px;box-shadow:var(--shadow);display:none;z-index:20}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102f4b">
+  <meta name="description" content="吉大法硕训练营 · 2027 法律（法学）备考训练终端">
+  <title>吉大法硕训练营</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
 </head>
 <body>
-<header class="header"><div class="brand"><div class="mark">JLU<br>LAW</div><div><p class="eyebrow">2027 · 035102 法律（法学）</p><h1>吉大法硕训练营</h1><p class="sub">325 → 375，按天推进，按周复盘。</p></div><div class="hero"><div class="stat"><strong id="countdown">--</strong><span>距初试 / 天</span></div><div class="stat"><strong id="streak">0</strong><span>连续打卡 / 天</span></div></div></div><div class="quote" id="quote">加载今日语录…</div><nav id="nav"><button class="active" data-view="today">今日训练</button><button data-view="data">数据中心</button><button data-view="mock">模考中心</button><button data-view="questions">题库训练</button><button data-view="photos">激励照片墙</button><button data-view="schools">院校激励榜</button><button data-view="backup">备份与恢复</button></nav></header>
-<main class="wrap">
-<section id="today" class="view active"><div class="heading"><div><p class="eyebrow">TODAY QUEST</p><h2>今日训练</h2></div><span class="pill" id="todayLabel"></span></div><div class="grid"><article class="panel span7"><p class="eyebrow">CHECK-IN</p><h3>四科时长打卡</h3><form id="checkin" class="form"><div class="subjects"><label>397 法基<input name="base397" type="number" min="0" step=".25" placeholder="小时"></label><label>497 法综<input name="comp497" type="number" min="0" step=".25" placeholder="小时"></label><label>英语一<input name="english" type="number" min="0" step=".25" placeholder="小时"></label><label>政治<input name="politics" type="number" min="0" step=".25" placeholder="小时"></label></div><label>今日知识点复盘<textarea name="review" rows="3"></textarea></label><div class="two"><label>主要卡点<textarea name="blocker" rows="3"></textarea></label><label>明天第一件事<textarea name="tomorrow" rows="3"></textarea></label></div><button class="btn">保存今日记录</button></form></article><article class="panel span5"><p class="eyebrow">DAILY CARD</p><h3>每日一题</h3><span class="pill" id="qcat"></span><div class="question" id="dailyQ"></div><div class="answer" id="dailyA" hidden></div><div class="row"><button class="btn ghost" id="answerBtn" type="button">显示答案</button><button class="btn ghost" id="switchBtn" type="button">换一道</button></div><div class="row" style="margin-top:10px"><span class="muted">掌握度：</span><button class="btn ghost mastery" data-m="会">会</button><button class="btn ghost mastery" data-m="模糊">模糊</button><button class="btn danger mastery" data-m="不会">不会</button></div></article></div><div class="grid" style="margin-top:16px"><article class="panel span7"><p class="eyebrow">TIMELINE</p><h3>今日学习 × 休息时间表</h3><div class="schedule" id="schedule"></div></article><article class="panel span5"><p class="eyebrow">SIX STAGES</p><h3>六阶段冲刺地图</h3><div class="cards" id="stages"></div></article></div></section>
-<section id="data" class="view"><div class="heading"><div><p class="eyebrow">ANALYTICS</p><h2>数据中心</h2></div><select id="range" style="width:auto"><option value="7">近7天</option><option value="30">近30天</option><option value="9999">全部</option></select></div><div class="metrics" id="metrics"></div><div class="grid"><article class="panel span6"><h3>科目时间分布</h3><div id="subjectBars"></div></article><article class="panel span6"><h3>自动周复盘</h3><div id="weekly"></div></article></div><article class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h3>复盘档案 / 历史补录</h3><button class="btn ghost" id="historyBtn">补录一天</button></div><div class="table" id="history"></div></article></section>
-<section id="mock" class="view"><div class="heading"><div><p class="eyebrow">MOCK EXAMS</p><h2>模考中心</h2></div></div><div class="grid"><article class="panel span5"><h3>录入模考</h3><form id="mockForm" class="form"><label>日期<input name="date" type="date" required></label><div class="subjects"><label>政治<input name="politics" type="number" max="100" required></label><label>英语一<input name="english" type="number" max="100" required></label><label>397<input name="base397" type="number" max="150" required></label><label>497<input name="comp497" type="number" max="150" required></label></div><label>失分复盘<textarea name="notes" rows="4"></textarea></label><button class="btn">保存模考</button></form></article><article class="panel span7"><h3>目标分数红线</h3><div class="notice">主目标 375 · 冲刺 389。模考总分会自动计算并显示与目标差距。</div><div class="cards" id="mockList" style="margin-top:12px"></div></article></div></section>
-<section id="questions" class="view"><div class="heading"><div><p class="eyebrow">QUESTION BANK</p><h2>题库训练</h2></div><button class="btn" id="addQ">新增题目</button></div><div class="panel"><div class="row"><input id="qSearch" placeholder="搜索题干、考点或答案" style="flex:1"><select id="qFilter" style="width:auto"><option value="all">全部分类</option><option>民法</option><option>刑法</option><option>法理</option><option>宪法</option><option>法制史</option><option>英语</option><option>政治</option></select></div><div class="cards" id="qList" style="margin-top:14px"></div></div></section>
-<section id="photos" class="view"><div class="heading"><div><p class="eyebrow">MEMORY WALL</p><h2>激励照片墙</h2></div></div><article class="panel"><p class="muted">照片保存在当前浏览器 IndexedDB，最多一次选择 12 张。跨设备同步将在云端版接入。</p><form id="photoForm" class="form"><input id="photoFiles" type="file" accept="image/*" multiple><div class="two"><label>日期<input id="photoDate" type="date"></label><label>说明<input id="photoCaption"></label></div><button class="btn">保存到照片墙</button></form></article><div class="photo-grid" id="gallery" style="margin-top:16px"></div></section>
-<section id="schools" class="view"><div class="heading"><div><p class="eyebrow">MOTIVATION BOARD</p><h2>院校激励榜</h2></div><span class="pill">2026 复试口径快照</span></div><div class="notice">复试线不等于最低录取分；这里用于目标感，不是院校实力排名。未核对的数据不猜。</div><div class="cards" id="schoolList" style="margin-top:14px"></div></section>
-<section id="backup" class="view"><div class="heading"><div><p class="eyebrow">PORTABILITY</p><h2>备份与恢复</h2></div></div><div class="grid"><article class="panel span6"><h3>导出学习数据</h3><p class="muted">包含打卡、模考、题库、掌握度和作息勾选。</p><button class="btn" id="exportBtn">导出 JSON</button></article><article class="panel span6"><h3>恢复学习数据</h3><input id="importFile" type="file" accept="application/json"><button class="btn" id="importBtn" style="margin-top:10px">导入 JSON</button></article></div><article class="panel" style="margin-top:16px"><h3>抢救说明</h3><p>当前版本依据旧聊天中保存的功能迭代记录重建。原 ChatGPT 导出未包含代码工具实际写入的源文件正文，因此这是独立恢复实现，不冒充逐字节原源码。</p></article></section>
-</main><div class="toast" id="toast"></div>
-<script>
-const K='jluCampV2';const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const today=()=>new Date().toLocaleDateString('en-CA');const load=()=>JSON.parse(localStorage.getItem(K)||'{"checkins":{},"mocks":[],"mastery":{},"schedule":{},"questions":[]}');let db=load();const save=()=>localStorage.setItem(K,JSON.stringify(db));const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',1800)};
-const seed=[['民法','简述民事法律行为有效的基本条件。','行为人具有相应民事行为能力；意思表示真实；不违反法律、行政法规的强制性规定，不违背公序良俗。'],['刑法','简述犯罪构成的一般要件。','通常从犯罪客体、犯罪客观方面、犯罪主体、犯罪主观方面进行分析。'],['法理','法律规则与法律原则的主要区别是什么？','规则通常具有较明确的行为模式和法律后果；原则更抽象，提供价值和理由，并具有权衡空间。'],['宪法','我国宪法的根本法地位主要体现在哪些方面？','内容根本、法律效力最高、制定和修改程序更严格，并构成其他法律的立法基础。'],['法制史','简述中华法系传统法律文化的一项重要特征。','例如礼法结合、家族本位、行政司法合一等，作答时需结合制度展开。'],['英语','What does “stare decisis” mean in legal English?','The doctrine of following judicial precedent.'],['政治','实践与认识的辩证关系是什么？','实践是认识的来源、动力、目的和检验真理的唯一标准；认识反作用于实践。']];if(!db.questions.length)db.questions=seed.map((x,i)=>({id:i+1,cat:x[0],q:x[1],a:x[2],active:true}));
-const quotes=['把可控的今天做扎实，分数自然会往上走。','不要追赶情绪，追赶完成度。','复盘不是自责，是给明天校准方向。','375 不是一句口号，是许多个普通日子的总和。','题目不会背叛你，它只会暴露还没补上的地方。','稳定比偶尔爆发更接近上岸。'];
-function init(){const target=new Date('2026-12-19T00:00:00+08:00');$('#countdown').textContent=Math.max(0,Math.ceil((target-new Date())/86400000));$('#todayLabel').textContent=today();$('#quote').textContent=quotes[Math.abs(hash(today()))%quotes.length];renderStreak();renderToday();renderSchedule();renderStages();renderDaily();renderAll();$('#photoDate').value=today();$('#mockForm [name=date]').value=today();}
-function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return h}
-$('#nav').onclick=e=>{if(!e.target.dataset.view)return;$$('#nav button').forEach(b=>b.classList.toggle('active',b===e.target));$$('.view').forEach(v=>v.classList.toggle('active',v.id===e.target.dataset.view));renderAll()};
-function renderToday(){const r=db.checkins[today()]||{};for(const k of ['base397','comp497','english','politics','review','blocker','tomorrow'])$('#checkin')[k].value=r[k]??''}
-$('#checkin').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),r={};for(const [k,v] of f)r[k]=['review','blocker','tomorrow'].includes(k)?v:Number(v||0);db.checkins[today()]=r;save();renderStreak();renderAll();toast('今日记录已保存')};
-function renderStreak(){let n=0,d=new Date();if(!db.checkins[today()])d.setDate(d.getDate()-1);while(db.checkins[d.toLocaleDateString('en-CA')]){n++;d.setDate(d.getDate()-1)}$('#streak').textContent=n}
-let qi=0;function renderDaily(){const pool=db.questions.filter(x=>x.active!==false);if(!pool.length)return;qi=((Math.abs(hash(today()))+qi)%pool.length);const q=pool[qi];$('#qcat').textContent=q.cat;$('#dailyQ').textContent=q.q;$('#dailyA').textContent=q.a;$('#dailyA').hidden=true;$('#answerBtn').textContent='显示答案';$('.mastery')}
-$('#answerBtn').onclick=()=>{const a=$('#dailyA');a.hidden=!a.hidden;$('#answerBtn').textContent=a.hidden?'显示答案':'隐藏答案'};$('#switchBtn').onclick=()=>{qi++;renderDaily()};$$('.mastery').forEach(b=>b.onclick=()=>{const q=db.questions.filter(x=>x.active!==false)[qi%db.questions.filter(x=>x.active!==false).length];db.mastery[q.id]=b.dataset.m;save();toast('掌握度：'+b.dataset.m)});
-const schedule=[['08:30–12:00','397 法基'],['14:00–17:30','497 法综'],['19:30–21:00','英语 / 政治'],['21:00–22:00','专业课复盘']];function renderSchedule(){const key=today();db.schedule[key]??={};$('#schedule').innerHTML=schedule.map((x,i)=>`<label><input type="checkbox" data-si="${i}" ${db.schedule[key][i]?'checked':''}><span><b>${x[0]}</b> · ${x[1]}</span></label>`).join('');$$('[data-si]').forEach(c=>c.onchange=()=>{db.schedule[key][c.dataset.si]=c.checked;save()})}
-function renderStages(){const s=['基础重建','强化理解','真题拆解','背诵成型','全真模考','冲刺回收'];$('#stages').innerHTML=s.map((x,i)=>`<div class="item"><b>${i+1}. ${x}</b><div class="muted">围绕 397 / 497 / 英语 / 政治推进</div></div>`).join('')}
-function rows(n){const cutoff=Date.now()-(n-1)*86400000;return Object.entries(db.checkins).filter(([d])=>new Date(d).getTime()>=cutoff).sort((a,b)=>b[0].localeCompare(a[0]))}function total(r){return ['base397','comp497','english','politics'].reduce((s,k)=>s+Number(r[k]||0),0)}
-function renderData(){const rs=rows(Number($('#range').value||7)),hrs=rs.reduce((s,[,r])=>s+total(r),0),avg=rs.length?hrs/rs.length:0;$('#metrics').innerHTML=[[hrs.toFixed(1),'学习小时'],[rs.length,'打卡天数'],[avg.toFixed(1),'日均小时'],[Object.keys(db.mastery).length,'已评题目']].map(x=>`<div class="metric"><strong>${x[0]}</strong><span class="muted">${x[1]}</span></div>`).join('');const sums={base397:0,comp497:0,english:0,politics:0};rs.forEach(([,r])=>Object.keys(sums).forEach(k=>sums[k]+=Number(r[k]||0)));const mx=Math.max(1,...Object.values(sums));$('#subjectBars').innerHTML=[['397 法基','base397'],['497 法综','comp497'],['英语一','english'],['政治','politics']].map(([n,k])=>`<p><b>${n}</b> ${sums[k].toFixed(1)}h</p><div class="bar"><i style="width:${sums[k]/mx*100}%"></i></div>`).join('');const weak=Object.values(db.mastery).filter(x=>x!=='会').length;$('#weekly').innerHTML=`<p>近 ${Math.min(7,rs.length)} 个记录日累计 <b>${hrs.toFixed(1)} 小时</b>。</p><p>目前有 <b>${weak}</b> 道题处于“模糊/不会”队列。下周优先补：专业课薄弱题、低时长科目、最近模考失分点。</p>`;$('#history').innerHTML=`<table><tr><th>日期</th><th>397</th><th>497</th><th>英语</th><th>政治</th><th>总时长</th></tr>${Object.entries(db.checkins).sort((a,b)=>b[0].localeCompare(a[0])).map(([d,r])=>`<tr><td>${d}</td><td>${r.base397||0}</td><td>${r.comp497||0}</td><td>${r.english||0}</td><td>${r.politics||0}</td><td>${total(r).toFixed(1)}</td></tr>`).join('')}</table>`}
-$('#range').onchange=renderData;$('#historyBtn').onclick=()=>{const d=prompt('补录日期 YYYY-MM-DD');if(!d)return;db.checkins[d]??={base397:0,comp497:0,english:0,politics:0,review:'',blocker:'',tomorrow:''};save();renderData();toast('已创建补录日期')};
-$('#mockForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),r=Object.fromEntries(f);['politics','english','base397','comp497'].forEach(k=>r[k]=Number(r[k]));r.total=r.politics+r.english+r.base397+r.comp497;db.mocks.push(r);save();renderMock();toast('模考已保存')};function renderMock(){$('#mockList').innerHTML=[...db.mocks].reverse().map(r=>`<div class="item"><div class="top"><b>${r.date}</b><span class="pill">${r.total} 分</span></div><p>政治 ${r.politics} · 英语 ${r.english} · 397 ${r.base397} · 497 ${r.comp497}</p><div class="muted">距 375：${r.total>=375?'+':''}${r.total-375} · ${r.notes||'暂无复盘'}</div></div>`).join('')||'<p class="muted">还没有模考记录。</p>'}
-function renderQ(){const term=$('#qSearch').value.toLowerCase(),cat=$('#qFilter').value;const list=db.questions.filter(q=>(cat==='all'||q.cat===cat)&&(!term||(q.q+q.a+q.cat).toLowerCase().includes(term)));$('#qList').innerHTML=list.map(q=>`<div class="item"><div class="top"><b>${q.cat}</b><span class="pill">${db.mastery[q.id]||'未评'}</span></div><p>${q.q}</p><div class="muted">${q.a}</div></div>`).join('')||'<p class="muted">没有匹配题目。</p>'}$('#qSearch').oninput=renderQ;$('#qFilter').onchange=renderQ;$('#addQ').onclick=()=>{const cat=prompt('分类：民法/刑法/法理/宪法/法制史/英语/政治');if(!cat)return;const q=prompt('题目');if(!q)return;const a=prompt('答案')||'';db.questions.push({id:Date.now(),cat,q,a,active:true});save();renderQ()};
-const schools=[['吉林大学',350,'985 · 目标校'],['中国人民大学',365,'985 · 四系'],['上海交通大学',360,'985'],['华东政法大学',346,'五院']];function renderSchools(){$('#schoolList').innerHTML=schools.sort((a,b)=>b[1]-a[1]).map(x=>`<div class="item"><div class="top"><b>${x[0]}</b><span class="pill">${x[1]} 分</span></div><div class="muted">${x[2]} · 2026 法律（法学）复试口径快照</div></div>`).join('')}
-function openPhotoDB(){return new Promise((ok,no)=>{const r=indexedDB.open('jluCampPhotos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos',{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}$('#photoForm').onsubmit=async e=>{e.preventDefault();const fs=[...$('#photoFiles').files].slice(0,12);if(!fs.length)return toast('请选择照片');const d=await openPhotoDB(),tx=d.transaction('photos','readwrite'),st=tx.objectStore('photos');for(const f of fs){const data=await new Promise(ok=>{const r=new FileReader;r.onload=()=>ok(r.result);r.readAsDataURL(f)});st.put({id:Date.now()+Math.random(),date:$('#photoDate').value||today(),caption:$('#photoCaption').value,data})}tx.oncomplete=()=>{d.close();renderPhotos();toast('照片已保存')}};async function renderPhotos(){try{const d=await openPhotoDB(),tx=d.transaction('photos'),r=tx.objectStore('photos').getAll();r.onsuccess=()=>{$('#gallery').innerHTML=r.result.sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`<div class="photo"><img src="${p.data}" alt="学习照片"><div><b>${p.date}</b><br>${p.caption||''}</div></div>`).join('')||'<p class="muted">照片墙还是空的。</p>';d.close()}}catch{}}
-$('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jlu-study-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)};$('#importBtn').onclick=()=>{const f=$('#importFile').files[0];if(!f)return toast('请选择 JSON');const r=new FileReader;r.onload=()=>{try{db=JSON.parse(r.result);save();init();toast('备份已恢复')}catch{toast('JSON 无法读取')}};r.readAsText(f)};
-function renderAll(){renderData();renderMock();renderQ();renderSchools();renderPhotos()}init();
-</script>
-</body></html>
+  <header class="hero">
+    <div class="shell">
+      <div class="hero-top">
+        <div class="crest" aria-label="JLU Law Trainer">
+          <div><strong>JLU</strong><small>LAW CAMP</small></div>
+        </div>
+        <div class="brand">
+          <p class="kicker">2027 · 035102 · LAW TRAINER CONSOLE</p>
+          <h1>吉大法硕训练营</h1>
+          <p>325 → 375，把上岸拆成每天都能完成的一格地图。</p>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong id="countdown">--</strong><span>距初试 / 天</span></div>
+          <div class="hero-stat"><strong id="streak">0</strong><span>连续训练 / 天</span></div>
+          <div class="hero-stat"><strong id="level">Lv.1</strong><span>训练等级</span></div>
+        </div>
+      </div>
+
+      <div class="xp-strip">
+        <div class="rank-badge">XP</div>
+        <div class="xp-copy">
+          <b id="rankName">备考新人</b>
+          <small id="quote">加载今日训练语录…</small>
+          <div class="xp-bar"><i id="xpFill"></i></div>
+        </div>
+        <div class="xp-number" id="xpNumber">0/180 XP</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-wrap">
+    <nav class="nav shell" id="nav" aria-label="训练营导航">
+      <button type="button" class="active" data-view="today">今日冒险</button>
+      <button type="button" data-view="data">战报中心</button>
+      <button type="button" data-view="mock">模考 Boss</button>
+      <button type="button" data-view="questions">题库训练</button>
+      <button type="button" data-view="photos">纪念相册</button>
+      <button type="button" data-view="schools">目标院校</button>
+      <button type="button" data-view="backup">备份舱</button>
+    </nav>
+  </div>
+
+  <main class="shell">
+    <section id="today" class="view active">
+      <div class="page-title">
+        <div><p class="micro">TODAY QUEST</p><h2>今日冒险</h2></div>
+        <span class="date-chip" id="todayLabel"></span>
+      </div>
+
+      <div class="grid">
+        <article class="panel span7 quest-board">
+          <div class="panel-head">
+            <div><p class="micro">MISSION BOARD</p><h3>四科训练任务</h3></div>
+            <div class="row"><span class="pill" id="todayHours">0.0h</span><span class="pill">完成 <b id="questProgress">0/4</b></span></div>
+          </div>
+          <form id="checkin" class="form">
+            <div class="subjects">
+              <div class="subject-box"><div class="subject-icon s397">397</div><label>法律硕士专业基础<input name="base397" type="number" min="0" step="0.25" inputmode="decimal" placeholder="今日小时"></label></div>
+              <div class="subject-box"><div class="subject-icon s497">497</div><label>法律硕士综合<input name="comp497" type="number" min="0" step="0.25" inputmode="decimal" placeholder="今日小时"></label></div>
+              <div class="subject-box"><div class="subject-icon seng">EN</div><label>英语一<input name="english" type="number" min="0" step="0.25" inputmode="decimal" placeholder="今日小时"></label></div>
+              <div class="subject-box"><div class="subject-icon spol">POL</div><label>思想政治理论<input name="politics" type="number" min="0" step="0.25" inputmode="decimal" placeholder="今日小时"></label></div>
+            </div>
+            <label>今天真正吃透了什么？<textarea name="review" rows="3" placeholder="写下今天真正能复述、能做题、能输出的内容"></textarea></label>
+            <div class="two">
+              <label>卡住你的地方<textarea name="blocker" rows="3" placeholder="知识、记忆、表达、时间还是状态？"></textarea></label>
+              <label>明天坐下后的第一件事<textarea name="tomorrow" rows="3" placeholder="给明天一个无需思考就能启动的动作"></textarea></label>
+            </div>
+            <button class="btn save-btn" type="submit">保存今日战绩</button>
+          </form>
+        </article>
+
+        <article class="panel span5 battle-card">
+          <div class="battle-top"><div><p class="micro">DAILY ENCOUNTER</p><h3>每日遭遇题</h3></div><span class="pill" id="qcat">专业课</span></div>
+          <div class="orb" aria-hidden="true"></div>
+          <div class="question" id="dailyQ">加载题目…</div>
+          <div class="answer" id="dailyA" hidden></div>
+          <div class="row"><button class="btn ghost" id="answerBtn" type="button">查看解析</button><button class="btn ghost" id="switchBtn" type="button">换一道</button><span class="pill">状态 <b id="dailyMastery">未评估</b></span></div>
+          <div class="mastery" aria-label="掌握度">
+            <button class="btn ghost mastery" data-m="会" type="button">会了</button>
+            <button class="btn ghost mastery" data-m="模糊" type="button">模糊</button>
+            <button class="btn danger mastery" data-m="不会" type="button">不会</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid" style="margin-top:16px">
+        <article class="panel span7">
+          <div class="panel-head"><div><p class="micro">DAILY ROUTE</p><h3>今日训练路线</h3></div><span class="pill">练二休一 · 上肢 / 腿 / 休息之外，学习照常推进</span></div>
+          <div class="schedule" id="schedule"></div>
+        </article>
+        <article class="panel span5">
+          <div class="panel-head"><div><p class="micro">CAMPAIGN MAP</p><h3>六阶段冲刺地图</h3></div><span class="pill" id="stageNow">当前阶段</span></div>
+          <div class="route" id="stages"></div>
+          <div class="score-route"><span>325</span><i></i><strong>375 主目标</strong><i></i><span>389 冲刺</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="data" class="view">
+      <div class="page-title"><div><p class="micro">BATTLE REPORT</p><h2>战报中心</h2></div><select id="range" style="width:auto"><option value="7">近 7 天</option><option value="30">近 30 天</option><option value="9999">全部</option></select></div>
+      <div class="metrics" id="metrics"></div>
+      <div class="grid">
+        <article class="panel span6"><p class="micro">SUBJECT BUILD</p><h3>四科投入分布</h3><div id="subjectBars"></div></article>
+        <article class="panel span6"><p class="micro">AUTO REVIEW</p><h3>自动周复盘</h3><div id="weekly"></div></article>
+      </div>
+      <article class="panel" style="margin-top:16px">
+        <div class="panel-head"><div><p class="micro">ARCHIVE</p><h3>复盘档案</h3></div><button class="btn ghost" id="historyBtn" type="button">补录一天</button></div>
+        <div class="table" id="history"></div>
+      </article>
+    </section>
+
+    <section id="mock" class="view">
+      <div class="page-title"><div><p class="micro">BOSS ARENA</p><h2>模考 Boss</h2></div><span class="pill">主目标 375 · 冲刺 389</span></div>
+      <div class="grid">
+        <article class="panel span5 boss-card">
+          <div class="panel-head"><div><p class="micro">NEW BATTLE</p><h3>录入一场模考</h3></div></div>
+          <form id="mockForm" class="form">
+            <label>战斗日期<input name="date" type="date" required></label>
+            <div class="subjects">
+              <label>政治<input name="politics" type="number" min="0" max="100" required></label>
+              <label>英语一<input name="english" type="number" min="0" max="100" required></label>
+              <label>397<input name="base397" type="number" min="0" max="150" required></label>
+              <label>497<input name="comp497" type="number" min="0" max="150" required></label>
+            </div>
+            <label>失分原因与下一次修正<textarea name="notes" rows="4" placeholder="知识漏洞、审题、表达、时间分配分别发生了什么？"></textarea></label>
+            <button class="btn" type="submit">保存 Boss 战报</button>
+          </form>
+        </article>
+        <article class="panel span7">
+          <div class="panel-head"><div><p class="micro">LATEST RESULT</p><h3>最近战斗状态</h3></div></div>
+          <div class="metrics" style="grid-template-columns:repeat(2,1fr)"><div class="metric"><span>最近总分</span><strong id="bossScore">--</strong></div><div class="metric"><span>距 375</span><strong id="bossGap">--</strong></div></div>
+          <div class="cards" id="mockList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="questions" class="view">
+      <div class="page-title"><div><p class="micro">TRAINING DECK</p><h2>题库训练</h2></div><button class="btn" id="addQ" type="button">新增训练卡</button></div>
+      <article class="panel">
+        <div class="question-tools"><input id="qSearch" type="search" placeholder="搜索题干、考点或答案"><select id="qFilter"><option value="all">全部分类</option><option>民法</option><option>刑法</option><option>法理</option><option>宪法</option><option>法制史</option><option>英语</option><option>政治</option></select></div>
+        <div class="cards" id="qList" style="margin-top:14px"></div>
+      </article>
+    </section>
+
+    <section id="photos" class="view">
+      <div class="page-title"><div><p class="micro">MEMORY ALBUM</p><h2>纪念相册</h2></div><span class="pill">一次最多 12 张</span></div>
+      <article class="panel photo-uploader">
+        <div class="panel-head"><div><p class="micro">SAVE POINT</p><h3>给这一阶段留个存档点</h3></div></div>
+        <p class="muted">照片暂存在当前浏览器的 IndexedDB。跨设备照片同步会在云端版接入。</p>
+        <form id="photoForm" class="form">
+          <input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple>
+          <div class="two"><label>记录日期<input id="photoDate" type="date"></label><label>一句说明<input id="photoCaption" type="text" placeholder="例如：第一次 370+ 模考"></label></div>
+          <button class="btn" type="submit">写入训练日志</button>
+        </form>
+      </article>
+      <div class="photo-grid" id="gallery"></div>
+    </section>
+
+    <section id="schools" class="view">
+      <div class="page-title"><div><p class="micro">DESTINATION</p><h2>目标院校</h2></div><span class="pill">复试线快照</span></div>
+      <div class="notice">这里用于建立目标感，不把复试线当成最低录取分，也不把榜单当院校实力排名。未核对的数据不猜。</div>
+      <div class="cards" id="schoolList" style="margin-top:14px"></div>
+    </section>
+
+    <section id="backup" class="view">
+      <div class="page-title"><div><p class="micro">PORTABILITY</p><h2>备份舱</h2></div><span class="pill">不再被平台锁住</span></div>
+      <div class="backup-grid">
+        <article class="panel"><p class="micro">EXPORT</p><h3>导出学习数据</h3><p class="muted">包含打卡、模考、题库、掌握度和作息勾选。</p><button class="btn" id="exportBtn" type="button">导出 JSON 备份</button></article>
+        <article class="panel"><p class="micro">IMPORT</p><h3>恢复学习数据</h3><p class="muted">导入会用备份覆盖当前学习数据，建议先导出一份现有记录。</p><input id="importFile" type="file" accept="application/json"><button class="btn" id="importBtn" type="button" style="margin-top:10px">导入备份</button></article>
+      </div>
+      <article class="panel" style="margin-top:16px"><p class="micro">RECOVERY NOTE</p><h3>这套站现在是什么</h3><p>这是从旧 ChatGPT 项目迭代记录抢救并重建的独立版本。源码现在归你自己的 GitHub 仓库管理，Pages 负责托管，学习数据仍以本地存储为主。下一阶段再把登录与云同步接上。</p></article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
