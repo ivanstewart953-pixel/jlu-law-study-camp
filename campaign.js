@@ -101,4 +101,23 @@ function renderStages() {
   }
 }
 
+function loadEnhancements() {
+  if (!document.querySelector('link[data-jlu-polish]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './polish.css';
+    link.dataset.jluPolish = 'true';
+    document.head.appendChild(link);
+  }
+
+  if (!document.querySelector('script[data-jlu-flexible-routes]')) {
+    const script = document.createElement('script');
+    script.src = './flexible-tasks.js';
+    script.defer = true;
+    script.dataset.jluFlexibleRoutes = 'true';
+    document.body.appendChild(script);
+  }
+}
+
 renderStages();
+loadEnhancements();
