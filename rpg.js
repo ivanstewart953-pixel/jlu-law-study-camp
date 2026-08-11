@@ -1,6 +1,6 @@
 (function(){
   function getCurrentStage(){
-    if(typeof stageIndex==='function' && Array.isArray(window.campaignStages||campaignStages)){
+    if(typeof stageIndex==='function' && Array.isArray(campaignStages)){
       const idx=stageIndex();
       return idx<=campaignStages.length?campaignStages[idx-1]:campaignStages[campaignStages.length-1];
     }
@@ -24,7 +24,7 @@
         <div class="path"></div><div class="grass-patch g1"></div><div class="grass-patch g2"></div><div class="grass-patch g3"></div>
         <div class="map-label">长春 · 吉大法硕训练区</div>
         <div class="rpg-trainer" aria-hidden="true"></div>
-        <img class="rpg-companion" src="./assets/companion.svg" alt="原创伴学兽：律芽">
+        <img class="rpg-companion" src="./assets/companion.svg" width="150" height="150" decoding="async" fetchpriority="low" alt="原创伴学兽：律芽">
         <div class="map-objective"><b>${stageText}</b><br>${stageGoal}</div>
       </section>
       <aside class="trainer-card">
@@ -49,12 +49,9 @@
 
   function decoratePanels(){
     const schedulePanel=document.querySelector('#schedule')?.closest('.panel');
-    if(schedulePanel){
-      schedulePanel.querySelector('h3')?.classList.add('quest-log-title');
-    }
-    const stagesEl=document.querySelector('#stages');
-    const stagePanel=stagesEl?.closest('.panel');
-    if(stagePanel && !stagePanel.classList.contains('campaign-board')) stagePanel.classList.add('campaign-board');
+    if(schedulePanel) schedulePanel.querySelector('h3')?.classList.add('quest-log-title');
+    const stagePanel=document.querySelector('#stages')?.closest('.panel');
+    if(stagePanel) stagePanel.classList.add('campaign-board');
   }
 
   function syncNpc(){
@@ -63,16 +60,13 @@
     if(q&&npc)npc.textContent=q.textContent;
   }
 
-  function loadRpgCss(){
-    if(document.querySelector('link[data-rpg-css]'))return;
-    const l=document.createElement('link');
-    l.rel='stylesheet';l.href='./rpg.css';l.dataset.rpgCss='true';document.head.appendChild(l);
+  function refreshPresentation(){
+    injectOverworld();
+    decoratePanels();
+    syncNpc();
   }
 
-  loadRpgCss();
-  injectOverworld();
-  decoratePanels();
-  syncNpc();
-  const obs=new MutationObserver(()=>{syncNpc();decoratePanels()});
-  obs.observe(document.body,{subtree:true,childList:true,characterData:true});
+  refreshPresentation();
+  window.addEventListener('pageshow',refreshPresentation,{once:true});
+  document.querySelector('#nav')?.addEventListener('click',()=>requestAnimationFrame(decoratePanels));
 })();
