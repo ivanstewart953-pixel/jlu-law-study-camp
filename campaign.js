@@ -110,22 +110,28 @@ function addStyle(href, marker) {
   document.head.appendChild(link);
 }
 
-function addScript(src, marker) {
+function addScript(src, marker, async=true) {
   if (document.querySelector(`script[${marker}]`)) return;
   const script = document.createElement('script');
   script.src = src;
-  script.async = true;
+  script.async = async;
   script.setAttribute(marker, '');
   document.body.appendChild(script);
 }
 
 function loadEnhancements() {
-  /* Start every presentation request together instead of chaining them. */
+  /* Visual and daily-route enhancements start in parallel. */
   addStyle('./polish.css', 'data-jlu-polish');
   addStyle('./rpg.css', 'data-rpg-css');
   addStyle('./perf.css', 'data-jlu-perf');
+  addStyle('./cloud.css', 'data-jlu-cloud-css');
   addScript('./flexible-tasks.js', 'data-jlu-flexible-routes');
   addScript('./rpg.js', 'data-jlu-rpg');
+
+  /* Cloud code waits until first paint is settled. The site remains fully local if it fails. */
+  const loadCloud=()=>addScript('./cloud-sync.js', 'data-jlu-cloud-sync');
+  if ('requestIdleCallback' in window) requestIdleCallback(loadCloud,{timeout:2200});
+  else window.addEventListener('load',()=>setTimeout(loadCloud,700),{once:true});
 }
 
 renderStages();
