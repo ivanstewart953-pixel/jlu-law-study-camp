@@ -101,30 +101,31 @@ function renderStages() {
   }
 }
 
+function addStyle(href, marker) {
+  if (document.querySelector(`link[${marker}]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  link.setAttribute(marker, '');
+  document.head.appendChild(link);
+}
+
+function addScript(src, marker) {
+  if (document.querySelector(`script[${marker}]`)) return;
+  const script = document.createElement('script');
+  script.src = src;
+  script.async = true;
+  script.setAttribute(marker, '');
+  document.body.appendChild(script);
+}
+
 function loadEnhancements() {
-  if (!document.querySelector('link[data-jlu-polish]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = './polish.css';
-    link.dataset.jluPolish = 'true';
-    document.head.appendChild(link);
-  }
-
-  if (!document.querySelector('script[data-jlu-flexible-routes]')) {
-    const script = document.createElement('script');
-    script.src = './flexible-tasks.js';
-    script.defer = true;
-    script.dataset.jluFlexibleRoutes = 'true';
-    document.body.appendChild(script);
-  }
-
-  if (!document.querySelector('script[data-jlu-rpg]')) {
-    const script = document.createElement('script');
-    script.src = './rpg.js';
-    script.defer = true;
-    script.dataset.jluRpg = 'true';
-    document.body.appendChild(script);
-  }
+  /* Start every presentation request together instead of chaining them. */
+  addStyle('./polish.css', 'data-jlu-polish');
+  addStyle('./rpg.css', 'data-rpg-css');
+  addStyle('./perf.css', 'data-jlu-perf');
+  addScript('./flexible-tasks.js', 'data-jlu-flexible-routes');
+  addScript('./rpg.js', 'data-jlu-rpg');
 }
 
 renderStages();
