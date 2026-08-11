@@ -117,6 +117,14 @@ function loadEnhancements() {
     script.dataset.jluFlexibleRoutes = 'true';
     document.body.appendChild(script);
   }
+
+  if (!document.querySelector('script[data-jlu-rpg]')) {
+    const script = document.createElement('script');
+    script.src = './rpg.js';
+    script.defer = true;
+    script.dataset.jluRpg = 'true';
+    document.body.appendChild(script);
+  }
 }
 
 renderStages();
