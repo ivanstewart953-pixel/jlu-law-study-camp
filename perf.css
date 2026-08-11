@@ -1,0 +1,15 @@
+/* Performance layer: preserve RPG styling while reducing paint/composite cost. */
+@media(max-width:760px){
+  body:before,body:after,.hero:before,.hero:after{display:none!important}
+  .nav-wrap,.xp-strip{backdrop-filter:none!important}
+  .panel,.trainer-card,.rpg-screen,.hero-stat,.xp-strip,.nav button.active,.subject-box,.metric,.photo{box-shadow:none!important}
+  .rpg-companion{filter:none!important;animation:none!important}
+  .stage.now{animation:none!important}
+  .dialog-box:after{animation:none!important}
+  .mountain{filter:none!important}
+  .rpg-screen:before{opacity:.12!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .rpg-companion,.stage.now,.dialog-box:after{animation:none!important}
+}
