@@ -119,6 +119,11 @@ function addScript(src, marker, async=true) {
   document.body.appendChild(script);
 }
 
+function loadQuestionBank() {
+  addStyle('./question-bank.css', 'data-jlu-question-bank-css');
+  addScript('./question-bank.js', 'data-jlu-question-bank');
+}
+
 function loadEnhancements() {
   /* Visual and daily-route enhancements start in parallel. */
   addStyle('./polish.css', 'data-jlu-polish');
@@ -132,6 +137,12 @@ function loadEnhancements() {
   const loadCloud=()=>addScript('./cloud-sync.js', 'data-jlu-cloud-sync');
   if ('requestIdleCallback' in window) requestIdleCallback(loadCloud,{timeout:2200});
   else window.addEventListener('load',()=>setTimeout(loadCloud,700),{once:true});
+
+  /* The public practice bank loads only when the user actually opens the question view. */
+  document.querySelector('#nav')?.addEventListener('click',event=>{
+    const button=event.target.closest('button[data-view="questions"]');
+    if(button) loadQuestionBank();
+  });
 }
 
 renderStages();
