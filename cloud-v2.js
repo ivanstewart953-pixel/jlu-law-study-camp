@@ -1,4 +1,4 @@
-/* Cloud Sync V2: deterministic cross-device sync + mobile-first login in Backup and Photos. */
+/* Cloud Sync V2: deterministic cross-device sync + manual refresh, mobile-first. */
 (function(){
   const SUPABASE_URL='https://lthqhdeuwbsbazvftnpr.supabase.co';
   const SUPABASE_KEY='sb_publishable_6lE-bKpwU-VjejE6gpCcew_c6PW83mI';
@@ -7,7 +7,7 @@
   const LAST_SYNC='jluCloudLastSyncAt';
   let sb=null,session=null,syncBusy=false,syncTimer=null;
 
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[m]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
   const state=()=>{try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return {}}};
   const same=(a,b)=>JSON.stringify(a||{})===JSON.stringify(b||{});
   const baselineKey=()=>session?BASE+session.user.id:null;
@@ -38,7 +38,7 @@
       <div data-cloud-in hidden>
         <div class="cloud2-user"><span>已登录</span><strong data-cloud-user>--</strong><small data-cloud-last>尚未同步</small></div>
         <div class="cloud2-actions"><button class="btn" type="button" data-cloud-sync>立即同步</button><button class="btn ghost" type="button" data-cloud-pull>云端恢复本机</button><button class="btn ghost" type="button" data-cloud-push>本机覆盖云端</button>${mode==='photos'?'<button class="btn ghost" type="button" data-cloud-migrate>迁移本机照片</button>':''}<button class="btn danger" type="button" data-cloud-logout>退出</button></div>
-        <p class="cloud2-message" data-cloud-message>已连接云端。</p>
+        <p class="cloud2-message" data-cloud-message>已连接云端。不会定时拉取或自动重绘页面。</p>
       </div>
     </article>`;
   }
@@ -54,10 +54,12 @@
       const title=photos.querySelector('.page-title');
       title?.insertAdjacentHTML('afterend',panelMarkup('photos'));
       if(!photos.querySelector('#cloudGalleryWrap')){
-        photos.insertAdjacentHTML('beforeend','<article class="panel cloud2-gallery-wrap" id="cloudGalleryWrap"><div class="panel-head"><div><p class="micro">CLOUD ALBUM</p><h3>云端照片墙</h3></div><span class="pill" id="cloudPhotoCount">未登录</span></div><p class="muted" id="cloudPhotoHint">登录后显示电脑和手机共享的私有照片。</p><div class="cloud2-gallery" id="cloudGallery"></div></article>');
+        photos.insertAdjacentHTML('beforeend','<article class="panel cloud2-gallery-wrap" id="cloudGalleryWrap"><div class="panel-head"><div><p class="micro">CLOUD ALBUM</p><h3>云端照片墙</h3></div><div class="row"><button class="btn ghost" id="cloudPhotoRefresh" type="button">刷新云相册</button><span class="pill" id="cloudPhotoCount">未登录</span></div></div><p class="muted" id="cloudPhotoHint">平时优先显示本机缓存；需要检查云端新照片时手动刷新。</p><div class="cloud2-gallery" id="cloudGallery"></div></article>');
       }
     }
     document.querySelectorAll('[data-cloud-panel]').forEach(bindPanel);
+    const refresh=document.querySelector('#cloudPhotoRefresh');
+    if(refresh&&!refresh.dataset.bound){refresh.dataset.bound='1';refresh.addEventListener('click',renderCloudPhotos)}
     bindPhotoForm();
     renderStatus();
   }
@@ -74,6 +76,7 @@
   }
 
   function msg(text,error=false){document.querySelectorAll('[data-cloud-message]').forEach(x=>{x.textContent=text;x.classList.toggle('error',error)})}
+  function notifyCacheHydrate(){window.dispatchEvent(new CustomEvent('jlu:photo-cache-hydrate'))}
   function renderStatus(){
     const last=localStorage.getItem(LAST_SYNC);
     document.querySelectorAll('[data-cloud-panel]').forEach(panel=>{
@@ -83,18 +86,22 @@
       if(badge){badge.textContent=session?(syncBusy?'SYNC':'CLOUD'):'LOCAL';badge.className='cloud2-status '+(session?'cloud':'local')}
       if(session){panel.querySelector('[data-cloud-user]').textContent=session.user.email||session.user.id;panel.querySelector('[data-cloud-last]').textContent=last?`最近同步 ${new Date(last).toLocaleString()}`:'尚未同步'}
     });
-    const count=document.querySelector('#cloudPhotoCount');if(count&&!session)count.textContent='未登录';
+    const count=document.querySelector('#cloudPhotoCount');
+    const refresh=document.querySelector('#cloudPhotoRefresh');
+    if(refresh)refresh.disabled=!session;
+    if(count&&!session)count.textContent='未登录';
+    else if(count&&session&&count.textContent==='未登录')count.textContent='缓存优先';
   }
 
   async function login(panel){
     const email=panel.querySelector('[data-cloud-email]')?.value.trim();const password=panel.querySelector('[data-cloud-password]')?.value||'';
     if(!email||!password){msg('请输入邮箱和密码。',true);return}
-    try{msg('正在登录…');const c=await client();const {data,error}=await c.auth.signInWithPassword({email,password});if(error)throw error;session=data.session;renderStatus();await smartSync(true);await renderCloudPhotos()}catch(e){msg(`登录失败：${e.message||e}`,true)}
+    try{msg('正在登录…');const c=await client();const {data,error}=await c.auth.signInWithPassword({email,password});if(error)throw error;session=data.session;renderStatus();notifyCacheHydrate();await smartSync(true);msg('登录成功。照片墙先显示本机缓存，需要新照片时点“刷新云相册”。')}catch(e){msg(`登录失败：${e.message||e}`,true)}
   }
   async function signup(panel){
     const email=panel.querySelector('[data-cloud-email]')?.value.trim();const password=panel.querySelector('[data-cloud-password]')?.value||'';
     if(!email||password.length<8){msg('请输入有效邮箱和至少 8 位密码。',true);return}
-    try{const c=await client();const {data,error}=await c.auth.signUp({email,password});if(error)throw error;session=data.session;if(session){renderStatus();await smartSync(true)}else msg('账号已创建，请先去邮箱完成验证。')}catch(e){msg(`注册失败：${e.message||e}`,true)}
+    try{const c=await client();const {data,error}=await c.auth.signUp({email,password});if(error)throw error;session=data.session;if(session){renderStatus();notifyCacheHydrate();await smartSync(true)}else msg('账号已创建，请先去邮箱完成验证。')}catch(e){msg(`注册失败：${e.message||e}`,true)}
   }
   async function logout(){try{(await client()).auth.signOut()}catch{}session=null;renderStatus();msg('已退出云账号，本机数据仍保留。')}
 
@@ -122,7 +129,11 @@
     }catch(e){msg(`同步失败：${e.message||e}`,true)}finally{syncBusy=false;renderStatus()}
   }
 
-  function scheduleSync(){if(!session)return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>smartSync(false),1600)}
+  function scheduleSync(){
+    if(!session)return;
+    clearTimeout(syncTimer);
+    syncTimer=setTimeout(()=>smartSync(false),1600);
+  }
 
   function ext(file){const n=String(file?.name||'').toLowerCase();if(n.endsWith('.png'))return'png';if(n.endsWith('.webp'))return'webp';if(n.endsWith('.avif'))return'avif';if(n.endsWith('.heic'))return'heic';if(n.endsWith('.heif'))return'heif';return'jpg'}
   async function uploadPhoto(file,date,caption){
@@ -134,25 +145,78 @@
     const {error:meta}=await c.from('study_photos').insert({user_id:session.user.id,storage_path:path,taken_on:date||today(),caption:caption||''});if(meta){await c.storage.from('study-photos').remove([path]);throw meta}return true;
   }
 
-  function bindPhotoForm(){const form=document.querySelector('#photoForm');if(!form||form.dataset.cloud2)return;form.dataset.cloud2='1';form.addEventListener('submit',async()=>{if(!session)return;const input=document.querySelector('#photoFiles');const files=[...(input?.files||[])].slice(0,12);if(!files.length)return;const date=document.querySelector('#photoDate')?.value||today(),caption=document.querySelector('#photoCaption')?.value||'';let done=0;msg(`正在上传云端照片 0/${files.length}…`);for(const f of files){try{if(await uploadPhoto(f,date,caption))done++}catch(e){console.warn(e)}msg(`正在上传云端照片 ${done}/${files.length}…`)}msg(`${done}/${files.length} 张照片已进入云端。`,done!==files.length);renderCloudPhotos()},true)}
+  function bindPhotoForm(){
+    const form=document.querySelector('#photoForm');if(!form||form.dataset.cloud2)return;form.dataset.cloud2='1';
+    form.addEventListener('submit',async()=>{
+      if(!session)return;
+      const input=document.querySelector('#photoFiles');const files=[...(input?.files||[])].slice(0,12);if(!files.length)return;
+      const date=document.querySelector('#photoDate')?.value||today(),caption=document.querySelector('#photoCaption')?.value||'';let done=0;
+      msg(`正在上传云端照片 0/${files.length}…`);
+      for(const f of files){try{if(await uploadPhoto(f,date,caption))done++}catch(e){console.warn(e)}msg(`正在上传云端照片 ${done}/${files.length}…`)}
+      msg(`${done}/${files.length} 张照片已进入云端。`,done!==files.length);
+      renderCloudPhotos();
+    },true)
+  }
 
   async function renderCloudPhotos(){
-    const gallery=document.querySelector('#cloudGallery');if(!gallery)return;if(!session){gallery.innerHTML='';return}
-    gallery.innerHTML='<div class="cloud2-loading">读取云端照片…</div>';
-    try{const c=await client();const {data,error}=await c.from('study_photos').select('id,storage_path,taken_on,caption,created_at').order('created_at',{ascending:false});if(error)throw error;document.querySelector('#cloudPhotoCount').textContent=`${data.length} 张`;document.querySelector('#cloudPhotoHint').textContent='同账号手机与电脑共享，照片本身保存在私有 Storage。';if(!data.length){gallery.innerHTML='<div class="empty">云端还没有照片。现在从任一设备上传即可同步。</div>';return}const cards=[];for(const p of data){const {data:signed}=await c.storage.from('study-photos').createSignedUrl(p.storage_path,3600);if(!signed?.signedUrl)continue;cards.push(`<figure class="cloud2-photo"><img loading="lazy" decoding="async" src="${signed.signedUrl}" alt="学习照片"><figcaption><b>${esc(p.taken_on)}</b><span>${esc(p.caption||'')}</span></figcaption></figure>`)}gallery.innerHTML=cards.join('')||'<div class="empty">照片已保存，但当前浏览器暂时无法预览这些格式。</div>'}catch(e){gallery.innerHTML=`<div class="empty">读取失败：${esc(e.message||e)}</div>`}
+    const gallery=document.querySelector('#cloudGallery');
+    const button=document.querySelector('#cloudPhotoRefresh');
+    const hint=document.querySelector('#cloudPhotoHint');
+    if(!gallery)return;
+    if(!session){if(hint)hint.textContent='请先登录云账号。';return}
+    if(button){button.disabled=true;button.textContent='刷新中…'}
+    if(hint)hint.textContent='正在检查云端新照片，当前缓存继续可看。';
+    try{
+      const c=await client();
+      const {data,error}=await c.from('study_photos').select('id,storage_path,taken_on,caption,created_at').order('created_at',{ascending:false});
+      if(error)throw error;
+      const count=document.querySelector('#cloudPhotoCount');if(count)count.textContent=`${data.length} 张`;
+      if(!data.length){gallery.innerHTML='<div class="empty">云端还没有照片。现在从任一设备上传即可同步。</div>';if(hint)hint.textContent='云端暂无照片。';return}
+      const cards=[];
+      for(const p of data){
+        const {data:signed}=await c.storage.from('study-photos').createSignedUrl(p.storage_path,3600);
+        if(!signed?.signedUrl)continue;
+        cards.push(`<figure class="cloud2-photo"><img loading="lazy" decoding="async" src="${signed.signedUrl}" alt="学习照片"><figcaption><b>${esc(p.taken_on)}</b><span>${esc(p.caption||'')}</span></figcaption></figure>`);
+      }
+      if(cards.length)gallery.innerHTML=cards.join('');
+      if(hint)hint.textContent='已手动刷新云相册；图片会继续写入本机缓存，下次进入优先秒开。';
+    }catch(e){
+      if(hint)hint.textContent=`刷新失败：${e.message||e}。已缓存照片仍可继续查看。`;
+    }finally{
+      if(button){button.disabled=false;button.textContent='刷新云相册'}
+    }
   }
 
   async function migrateLocalPhotos(){
     if(!session){msg('请先登录。',true);return}
-    try{const d=await openPhotoDB();const photos=await new Promise((ok,no)=>{const r=d.transaction('photos').objectStore('photos').getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});d.close();if(!photos.length){msg('这台设备没有本地照片需要迁移。');return}let done=0;for(const p of photos){try{const blob=await fetch(p.data).then(r=>r.blob());const file=new File([blob],`local-${p.id}.${blob.type.includes('png')?'png':'jpg'}`,{type:blob.type});if(await uploadPhoto(file,p.date,p.caption))done++}catch{}msg(`迁移本机照片 ${done}/${photos.length}…`)}msg(`迁移完成：${done}/${photos.length} 张。`);renderCloudPhotos()}catch(e){msg(`迁移失败：${e.message||e}`,true)}
+    try{
+      const d=await openPhotoDB();
+      const photos=await new Promise((ok,no)=>{const r=d.transaction('photos').objectStore('photos').getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});d.close();
+      if(!photos.length){msg('这台设备没有本地照片需要迁移。');return}
+      let done=0;
+      for(const p of photos){try{const blob=await fetch(p.data).then(r=>r.blob());const file=new File([blob],`local-${p.id}.${blob.type.includes('png')?'png':'jpg'}`,{type:blob.type});if(await uploadPhoto(file,p.date,p.caption))done++}catch{}msg(`迁移本机照片 ${done}/${photos.length}…`)}
+      msg(`迁移完成：${done}/${photos.length} 张。`);renderCloudPhotos();
+    }catch(e){msg(`迁移失败：${e.message||e}`,true)}
   }
 
   async function init(){
     inject();
-    try{const c=await client();const {data}=await c.auth.getSession();session=data.session;if(session){try{const {data:r}=await c.auth.refreshSession();if(r?.session)session=r.session}catch{}renderStatus();await smartSync(false);await renderCloudPhotos()}else renderStatus();c.auth.onAuthStateChange((_event,s)=>{session=s;renderStatus();if(session){setTimeout(()=>smartSync(false),300);setTimeout(renderCloudPhotos,500)}})}catch(e){msg('云端模块暂不可用，本地学习不受影响。',true)}
-    document.addEventListener('submit',scheduleSync,true);document.addEventListener('change',scheduleSync,true);document.addEventListener('click',e=>{if(e.target.closest('[data-route-check],.mastery,#addQ,#routeResetBtn'))scheduleSync()},true);
-    setInterval(()=>{if(session&&document.visibilityState==='visible')smartSync(false)},45000);
-    document.addEventListener('visibilitychange',()=>{if(session&&document.visibilityState==='visible'){smartSync(false);renderCloudPhotos()}});
+    try{
+      const c=await client();
+      const {data}=await c.auth.getSession();session=data.session;
+      if(session){
+        try{const {data:r}=await c.auth.refreshSession();if(r?.session)session=r.session}catch{}
+        renderStatus();notifyCacheHydrate();
+      }else renderStatus();
+      c.auth.onAuthStateChange((_event,s)=>{session=s;renderStatus();if(session)notifyCacheHydrate()});
+    }catch(e){msg('云端模块暂不可用，本地学习不受影响。',true)}
+
+    /* Local edits can still sync after the user's own action. There is no periodic or focus-triggered pull. */
+    document.addEventListener('submit',scheduleSync,true);
+    document.addEventListener('change',scheduleSync,true);
+    document.addEventListener('click',e=>{if(e.target.closest('[data-route-check],.mastery,#addQ,#routeResetBtn'))scheduleSync()},true);
   }
+
+  window.jluRefreshCloudPhotos=renderCloudPhotos;
   init();
 })();
