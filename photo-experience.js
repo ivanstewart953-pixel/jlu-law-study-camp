@@ -178,7 +178,7 @@
     const uid=currentUserId();if(!uid)return;
     const count=knownCount??(await cacheAll()).filter(r=>r.userId===uid&&r.blob).length;
     const hint=document.querySelector('#cloudPhotoHint');
-    if(hint&&count)hint.textContent=`本机已缓存 ${count} 张，进入相册优先秒开；云端更新会在后台补齐。`;
+    if(hint&&count)hint.textContent=`本机已缓存 ${count} 张；需要检查云端更新时点“刷新云相册”。`;
   }
 
   function observeCloudGallery(){
@@ -263,6 +263,7 @@
       if(e.key==='ArrowLeft')moveLightbox(-1);
       if(e.key==='ArrowRight')moveLightbox(1);
     });
+    window.addEventListener('jlu:photo-cache-hydrate',()=>setTimeout(()=>{observeCloudGallery();hydrateCachedGallery();processCloudGallery()},0));
     window.addEventListener('beforeunload',()=>{for(const url of activeObjectUrls.values())URL.revokeObjectURL(url);activeObjectUrls.clear()});
   }
 
