@@ -126,7 +126,9 @@ function loadQuestionBank() {
 
 function loadAgentExport() {
   addStyle('./agent-export.css', 'data-jlu-agent-export-css');
-  addScript('./agent-export.js', 'data-jlu-agent-export');
+  /* Keep these two ordered: the formatter replaces the daily export after the base terminal exists. */
+  addScript('./agent-export.js', 'data-jlu-agent-export', false);
+  addScript('./daily-export-format.js', 'data-jlu-daily-export-format', false);
 }
 
 function loadEnhancements() {
