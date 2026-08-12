@@ -138,10 +138,10 @@ function loadEnhancements() {
   addScript('./flexible-tasks.js', 'data-jlu-flexible-routes');
   addScript('./rpg.js', 'data-jlu-rpg');
 
-  /* Cloud code waits until first paint is settled. The site remains fully local if it fails. */
-  const loadCloud=()=>addScript('./cloud-sync.js', 'data-jlu-cloud-sync');
-  if ('requestIdleCallback' in window) requestIdleCallback(loadCloud,{timeout:2200});
-  else window.addEventListener('load',()=>setTimeout(loadCloud,700),{once:true});
+  /* Cloud starts after first paint, but a persisted session is refreshed first to avoid stale-JWT races. */
+  const loadCloudGuard=()=>addScript('./cloud-session-guard.js', 'data-jlu-cloud-session-guard');
+  if ('requestIdleCallback' in window) requestIdleCallback(loadCloudGuard,{timeout:2200});
+  else window.addEventListener('load',()=>setTimeout(loadCloudGuard,700),{once:true});
 
   /* Heavy secondary features load only when their views are opened. */
   document.querySelector('#nav')?.addEventListener('click',event=>{
