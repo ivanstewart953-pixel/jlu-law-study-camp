@@ -82,6 +82,7 @@
     const attempts=progress.reduce((sum,row)=>sum+num(row?.attempts),0);
     const correct=progress.reduce((sum,row)=>sum+num(row?.correctCount),0);
     return {
+      scope:'lifetime',
       attempts,
       accuracy:attempts?Math.round((correct/attempts)*10000)/10000:0,
       wrong_current:progress.filter(row=>row?.wrong).length
@@ -110,6 +111,8 @@
     const date=localDate();
     return {
       schema:SCHEMA,
+      reportType:'daily',
+      intent:'daily_review',
       generated_at:generatedAt(),
       timezone:TIMEZONE,
       today:compactDay(date,true),
@@ -142,7 +145,7 @@
     };
 
     const note=document.querySelector('.agent-export-note');
-    if(note)note.textContent='日导出严格使用 jlu-study-snapshot-v1 JSON，便于 Agent 稳定读取；周导出继续保留完整 Markdown 周报。';
+    if(note)note.textContent='日导出严格使用 jlu-study-snapshot-v1 JSON，带 daily_review 意图与 lifetime 题库统计范围；周导出继续保留完整 Markdown 周报。';
     return true;
   }
 
