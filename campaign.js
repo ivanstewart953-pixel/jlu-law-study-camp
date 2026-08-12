@@ -126,32 +126,33 @@ function loadQuestionBank() {
 
 function loadAgentExport() {
   addStyle('./agent-export.css', 'data-jlu-agent-export-css');
-  /* Keep these ordered: base terminal -> exact daily schema -> clipboard handoff. */
   addScript('./agent-export.js', 'data-jlu-agent-export', false);
   addScript('./daily-export-format.js', 'data-jlu-daily-export-format', false);
   addScript('./agent-copy.js', 'data-jlu-agent-copy', false);
 }
 
+function loadCloudV2() {
+  addStyle('./mobile-v2.css', 'data-jlu-mobile-v2-css');
+  addScript('./cloud-v2.js', 'data-jlu-cloud-v2');
+}
+
 function loadEnhancements() {
-  /* Visual and daily-route enhancements start in parallel. */
   addStyle('./polish.css', 'data-jlu-polish');
   addStyle('./rpg.css', 'data-rpg-css');
   addStyle('./perf.css', 'data-jlu-perf');
-  addStyle('./cloud.css', 'data-jlu-cloud-css');
+  addStyle('./mobile-v2.css', 'data-jlu-mobile-v2-css');
   addScript('./flexible-tasks.js', 'data-jlu-flexible-routes');
   addScript('./rpg.js', 'data-jlu-rpg');
 
-  /* Cloud starts after first paint, but a persisted session is refreshed first to avoid stale-JWT races. */
-  const loadCloudGuard=()=>addScript('./cloud-session-guard.js', 'data-jlu-cloud-session-guard');
-  if ('requestIdleCallback' in window) requestIdleCallback(loadCloudGuard,{timeout:2200});
-  else window.addEventListener('load',()=>setTimeout(loadCloudGuard,700),{once:true});
+  /* Cloud stays off the critical path. Photos/Backup can request it immediately. */
+  if ('requestIdleCallback' in window) requestIdleCallback(loadCloudV2,{timeout:1800});
+  else window.addEventListener('load',()=>setTimeout(loadCloudV2,500),{once:true});
 
-  /* Heavy secondary features load only when their views are opened. */
   document.querySelector('#nav')?.addEventListener('click',event=>{
-    const q=event.target.closest('button[data-view="questions"]');
-    if(q) loadQuestionBank();
-    const d=event.target.closest('button[data-view="data"]');
-    if(d) loadAgentExport();
+    const view=event.target.closest('button[data-view]')?.dataset.view;
+    if(view==='questions') loadQuestionBank();
+    if(view==='data') loadAgentExport();
+    if(view==='photos'||view==='backup') loadCloudV2();
   });
 }
 
