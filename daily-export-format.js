@@ -122,6 +122,9 @@
     };
   }
 
+  /* Shared by the quick-copy layer so export and clipboard always use the exact same schema. */
+  window.jluBuildDailySnapshot=snapshot;
+
   function downloadJson(filename,data){
     const blob=new Blob(['\ufeff',JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
     const url=URL.createObjectURL(blob);
