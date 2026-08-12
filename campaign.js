@@ -136,6 +136,11 @@ function loadCloudV2() {
   addScript('./cloud-v2.js', 'data-jlu-cloud-v2');
 }
 
+function loadPhotoExperience() {
+  addStyle('./photo-experience.css', 'data-jlu-photo-experience-css');
+  addScript('./photo-experience.js', 'data-jlu-photo-experience');
+}
+
 function loadEnhancements() {
   addStyle('./polish.css', 'data-jlu-polish');
   addStyle('./rpg.css', 'data-rpg-css');
@@ -152,7 +157,11 @@ function loadEnhancements() {
     const view=event.target.closest('button[data-view]')?.dataset.view;
     if(view==='questions') loadQuestionBank();
     if(view==='data') loadAgentExport();
-    if(view==='photos'||view==='backup') loadCloudV2();
+    if(view==='photos') {
+      loadCloudV2();
+      loadPhotoExperience();
+    }
+    if(view==='backup') loadCloudV2();
   });
 }
 
